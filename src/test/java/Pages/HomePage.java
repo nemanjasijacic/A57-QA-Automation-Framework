@@ -1,42 +1,31 @@
 package Pages;
-import org.openqa.selenium.By;
+
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.testng.Assert;
 
 public class HomePage extends BasePage {
-    public HomePage(WebDriver givenDriver) {
-        super(givenDriver);
+    public HomePage(WebDriver driver) {
+        super(driver);
     }
 
-    
-    By userAvatarIcon = By.cssSelector("img.avatar");
+    @FindBy(css = "#playlists > ul > li:nth-child(4)")
+    WebElement playlistName;
+    @FindBy(css = "[name='name']")
+    WebElement plNameInputField;
 
-    By selectedPlayList = By.xpath("//li[@class= 'playlist playlist']//a[contains(text(), 'My Play List')]");
-    By selectedPLField = By.cssSelector("[name = 'name']");
-    By renamedPlayList = By.xpath("//div[@class= 'success show']");
 
-    @FindBy(xpath = "//li[@class= 'playlist playlist']//a[contains(text(), 'My Play List')]")
-    WebElement selectedListLocator;
-    @FindBy(css = "[name = 'name']")
-    WebElement selectedNewNameLocator;
-    @FindBy(xpath = "//div[@class= 'success show']")
-    WebElement renamedPLocator;
-    public void doubleClickLocator(){
-        actions.doubleClick(selectedListLocator).perform();
+    public HomePage doubleClick() {
+        doubleClick(playlistName);
+        return this;
     }
-    public void cleanEnterListLocator(String newPlayListName){
-        selectedNewNameLocator.sendKeys(Keys.chord(Keys.COMMAND, "A", Keys.DELETE));
-        selectedNewNameLocator.sendKeys(newPlayListName);
-        selectedNewNameLocator.sendKeys(Keys.ENTER);
+    public HomePage enterNewPlName(String newName){
+        plNameInputField.sendKeys(Keys.chord(Keys.CONTROL, "A", Keys.BACK_SPACE));
+        plNameInputField.sendKeys(newName);
+        plNameInputField.sendKeys(Keys.ENTER);
+        return this;
+
+
     }
-    public String getRenamedListLocator(){
-        return renamedPLocator.getText();
-    }
-
-
-
 }
